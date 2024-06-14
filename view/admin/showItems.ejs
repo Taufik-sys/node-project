@@ -1,0 +1,38 @@
+<%- include('../includes/header.ejs')%>
+<title><%=title%></title>
+  </head>
+  <body>
+    <%- include('../includes/navbar.ejs')%>
+    <main>
+        <div class="container py-2">
+            <table class="table table-bordered">
+                <thead>
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Item Name</th>
+                    <th scope="col">Item Category</th>
+                    <th scope="col">Item Price</th>
+                    <th scope="col">Edit</th>
+                    <th scope="col">Delete</th>
+                    <th scope="col">Details</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% for(let i=0;i<data.length;i++){%>
+                    <tr>
+                        <th scope="row"><%=i+1%></th>
+                        <td><%=data[i].item_Name%></td>
+                        <td><%=data[i].item_Category%></td>
+                        <td><%=data[i].item_Price%></td>
+                        <!-- <td><%=data[i]._id%></td> -->
+                        <td><a href="/edit/<%=data[i]._id%>" class="btn btn-warning">Edit</a></td>
+                        <td><a href="/delete/<%=data[i]._id%>" class="btn btn-danger">Delete</a></td>
+                        <td><a href="/details/<%=data[i]._id%>" class="btn btn-success">Details</a></td>
+                    </tr>
+                    <%}%>
+                </tbody>
+              </table>
+        </div>
+    </main>
+    <%- include('../includes/footer.ejs')%>
+    

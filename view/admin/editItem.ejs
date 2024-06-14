@@ -1,0 +1,48 @@
+<%- include('../includes/header.ejs')%>
+<title><%=title%></title>
+  </head>
+  <body>
+    <%- include('../includes/navbar.ejs')%>
+    <main>
+        <div class="container py-2">
+            <form action="/postEdit" method="POST" enctype="multipart/form-data">
+              <div class="mb-3">
+                <input type="text" class="form-control" id="exampleFormControlInput1" name="id" value="<%=data._id%>" readonly>
+              </div>
+                <div class="mb-3">
+                    <label for="exampleFormControlInput1" class="form-label">Item Name</label>
+                    <input type="text" class="form-control" id="exampleFormControlInput1" name="name" value="<%=data.item_Name%>">
+                  </div>
+                  <div class="mb-3">
+                    <label for="exampleFormControlInput1" class="form-label">Item Category</label>
+                    <select class="form-select" aria-label="Default select example" name="category" value="<%=data.item_Category%>">
+                        <option selected></option>
+                        <option value="Category A">Category A</option>
+                        <option value="Category B">Category B</option>
+                        <option value="Category C">Category C</option>
+                      </select>
+                  </div>
+                  <div class="mb-3">
+                    <label for="exampleFormControlInput1" class="form-label">Item Price</label>
+                    <input type="text" class="form-control" id="exampleFormControlInput1" name="price" value="<%=data.item_Price%>">
+                  </div>
+                  <div class="mb-3">
+                    <label for="exampleFormControlInput1" class="form-label">Item Image 1</label>
+                    <input type="file" class="form-control" id="exampleFormControlInput1" name="item_image_1">
+                  </div>
+                  <div class="mb-3">
+                    <label for="exampleFormControlInput1" class="form-label">Item Image 2</label>
+                    <input type="file" class="form-control" id="exampleFormControlInput1" name="item_image_2">
+                  </div>
+                  <div class="mb-3">
+                    <label for="exampleFormControlTextarea1" class="form-label">Item Description</label>
+                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="5" name="desc"></textarea>
+                  </div>
+                  <div>
+                    <input type="submit" value="Submit" class="btn btn-success">
+                  </div>
+            </form>
+        </div>
+    </main>
+    <%- include('../includes/footer.ejs')%>
+    
