@@ -3,6 +3,8 @@ const bcrypt=require('bcryptjs');
 const nodemailer=require('nodemailer');
 const jwt=require('jsonwebtoken');
 const tokenModel = require("../model/tokenModel");
+const { Cookie } = require("express-session");
+// const cookie=require('cookie-parser');
 
 const transport=nodemailer.createTransport({
     host:'stmp',
@@ -122,14 +124,17 @@ const con_mail=async(req,res)=>{
 }
 
 const viewLogin=(req,res)=>{
+    console.log(req.cookies);
     res.render('auth/login',{
-        title: 'Login Page'
+        title: 'Login Page',
+        cookie: req.cookies
     })
 }
 
 const postLogin=async(req,res)=>{
     try {
         //    console.log("For login",req.body);
+        // console.log('Checked',req.body.cookie);
         const user_data = await authModel.findOne({ email: req.body.email });
         // console.log('user_data',user_data);
         if (user_data) { 
@@ -138,12 +143,27 @@ const postLogin=async(req,res)=>{
             if (hasspass) {
                 req.session.isLoggedIn = true;
                 req.session.user = user_data;
+                const cookie_value={
+                    cookie_email:user_data.email,
+                    cookie_password:req.body.pass
+                }
                 await req.session.save(err=>{
                     if(err)
                         console.log('Error in login',err);
                     else{
+                        if(req.body.cookie){
+                            res.cookie(
+                                'cookie_data',
+                                cookie_value,{
+                                expires:new Date(Date.now()+900000),
+                                httpOnly:true
+                                }
+                            )
                         console.log('Login Successfully');
                         res.redirect('/showItems');
+                        // console.log(req.cookies);
+                        
+                        }
                     }
                 })    
             }
