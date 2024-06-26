@@ -3,6 +3,7 @@ const { viewAddItemForm, postAddItemForm, showItems, deleteData, viewEdit, postE
 const adminRouter=express.Router();
 const path=require('path');
 const multer=require('multer');
+const {body}=require('express-validator')
 
 const fileStorage=multer.diskStorage({
     destination:(req,file,callback)=>{
@@ -40,7 +41,10 @@ const upload=multer({
 const upload_type=upload.fields([{name:'item_image_1',maxCount:1},{name:'item_image_2',maxCount:1}])
 
 adminRouter.get('/',viewAddItemForm);
-adminRouter.post('/postItem',upload_type,postAddItemForm);
+adminRouter.post('/postItem',upload_type,[
+    body('name','Invalid Item Name').isLength({min:2,max:20}),
+    body('price','Item Price cannot be empty').notEmpty()
+],postAddItemForm);
 
 adminRouter.get('/showItems',showItems);
 
@@ -49,6 +53,8 @@ adminRouter.get('/delete/:id',deleteData);
 adminRouter.get('/edit/:id',viewEdit);
 adminRouter.post('/postEdit',postEdit);
 
-adminRouter.get('/details/:id',showDetails)
+// adminRouter.get('/details/:id',showDetails);
+
+
 
 module.exports=adminRouter

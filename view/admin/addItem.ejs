@@ -6,9 +6,14 @@
     <main>
         <div class="container py-2">
             <form action="/postItem" method="POST" enctype="multipart/form-data">
+              <% if(frontError.length!==0){%>
+                <% for(let errMsg of frontError){%>
+                  <p style="color: red;"><%=errMsg.msg%></p>
+                  <%}%>
+                  <%}%>
                 <div class="mb-3">
                     <label for="exampleFormControlInput1" class="form-label">Item Name</label>
-                    <input type="text" class="form-control" id="exampleFormControlInput1" name="name">
+                    <input type="text" class="form-control" id="exampleFormControlInput1" name="name" value="<%=data.item_Name%>">
                   </div>
                   <div class="mb-3">
                     <label for="exampleFormControlInput1" class="form-label">Item Category</label>
@@ -21,7 +26,7 @@
                   </div>
                   <div class="mb-3">
                     <label for="exampleFormControlInput1" class="form-label">Item Price</label>
-                    <input type="text" class="form-control" id="exampleFormControlInput1" name="price">
+                    <input type="text" class="form-control" id="exampleFormControlInput1" name="price" value="<%=data.item_Price%>">
                   </div>
                   <div class="mb-3">
                     <label for="exampleFormControlInput1" class="form-label">Item Image 1</label>

@@ -1,0 +1,21 @@
+<%- include('../includes/header.ejs')%>
+<title><%=title%></title>
+  </head>
+  <body>
+    <%- include('../includes/navbar.ejs')%>
+    <main class="container mt-5 d-flex">
+      <% for(let obj of data){%>
+      <div class="card" style="width: 18rem;">
+        <img src="/<%=obj.item_Image1%>" class="card-img-top" alt="...">
+        <div class="card-body">
+          <h5 class="card-title"><%=obj.item_Name%></h5>
+          <p class="card-text"><%=obj.item_Price%></p>
+          <p class="card-text"><%=obj.item_Category%></p>
+          <p class="card-text"><%=obj.item_Description%></p>
+          <a href="/remove/<%=obj._id%>" class="btn btn-danger">Remove</a>
+        </div>
+      </div>
+      <%}%>
+    </main>
+    <%- include('../includes/footer.ejs')%>
+    

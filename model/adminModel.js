@@ -23,6 +23,10 @@ const adminSchema=new mongoose.Schema({
     item_Description:{
         type:String,
         required:true
+    },
+    isDeleted:{
+        type:Boolean,
+        default:false
     }
 },{
     timestamps:true,

@@ -3,7 +3,7 @@ const bcrypt=require('bcryptjs');
 const nodemailer=require('nodemailer');
 const jwt=require('jsonwebtoken');
 const tokenModel = require("../model/tokenModel");
-const { Cookie } = require("express-session");
+// const { Cookie } = require("express-session");
 // const cookie=require('cookie-parser');
 
 const transport=nodemailer.createTransport({

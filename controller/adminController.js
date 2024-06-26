@@ -1,10 +1,13 @@
 const adminModel = require("../model/adminModel");
 const fs=require('fs');
 const path=require('path');
+const {validationResult}=require('express-validator');
 
 const viewAddItemForm=(req,res)=>{
     res.render('admin/addItem',{
-        title: 'Item Registration'
+        title: 'Item Registration',
+        frontError:[],
+        data:{}
     })
 }
 
@@ -12,14 +15,42 @@ const postAddItemForm=async(req,res)=>{
     try{
         // console.log('Details',req.body);
         // console.log('Files',req.files);
-        let formData=await adminModel({
-            item_Name:req.body.name,
-            item_Category:req.body.category,
-            item_Price:req.body.price,
-            item_Image1:req.files.item_image_1[0].filename,
-            item_Image2:req.files.item_image_2[0].filename,
-            item_Description:req.body.desc
-        })
+        let error=validationResult(req);
+        console.log('Error',error);
+        let formData;
+        if(!error.isEmpty()){
+            let errorResponse=validationResult(req).array();
+            console.log('Error Response',errorResponse);
+               formData= await adminModel({
+                item_Name:req.body.name,
+                item_Category:req.body.category,
+                item_Price:req.body.price,
+                item_Image1:req.files.item_image_1[0].filename,
+                item_Image2:req.files.item_image_2[0].filename,
+                item_Description:req.body.desc
+            })
+            
+            res.render('admin/addItem',{
+                title: 'Item Registration',
+                frontError:errorResponse,
+                data:formData
+            })
+            
+        }
+
+        else{
+
+                formData=await adminModel({
+                item_Name:req.body.name,
+                item_Category:req.body.category,
+                item_Price:req.body.price,
+                item_Image1:req.files.item_image_1[0].filename,
+                item_Image2:req.files.item_image_2[0].filename,
+                item_Description:req.body.desc
+            })
+            
+        }
+        
         await formData.save();
         res.redirect('/showItems');
 
@@ -118,23 +149,9 @@ const postEdit=async(req,res)=>{
     }
 }
 
-const showDetails=async(req,res)=>{
-    try{
-        let id=req.params.id;
-        // console.log('id',id);
-        const details=await adminModel.findOne({_id:id});
-        // console.log('Details',details);
-        if(details){
-            res.render('admin/showDetails',{
-                title: 'Show Details',
-                data: details
-            })
-        }
-    }
-    catch(err){
-        console.log('Error in showing Details',err);
-    }
-}
+
+
+
 
 
 module.exports={
@@ -143,6 +160,5 @@ module.exports={
     showItems,
     deleteData,
     viewEdit,
-    postEdit,
-    showDetails   
+    postEdit, 
 }

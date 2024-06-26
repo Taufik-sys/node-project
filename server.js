@@ -11,6 +11,7 @@ const session=require('express-session');
 const adminModel = require('./model/adminModel');
 const mongodb_session=require('connect-mongodb-session')(session);
 const cookie=require('cookie-parser');
+const userRouter = require('./router/userRouter');
 
 
 
@@ -52,6 +53,7 @@ appServer.use(session({
 appServer.use(cookie());
 appServer.use(authRouter);
 appServer.use(adminRouter);
+appServer.use(userRouter);
 mongoose.connect(process.env.DB_URL)
 .then(res=>{
     appServer.listen(port,()=>{
